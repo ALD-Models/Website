@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A New Generation of NFC | Coming Soon</title>
+  <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+      cursor: none;
+    }
+    
+    body {
+      min-height: 100vh;
+      color: white;
+      overflow: hidden;
+      background: linear-gradient(to bottom right, #d4af37, #f9d423);
+    }
+    
+    .container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 0 1rem;
+      z-index: 1;
+    }
+    
+    .content {
+      text-align: center;
+      max-width: 800px;
+      z-index: 2;
+    }
+    
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 5rem);
+      font-weight: bold;
+      letter-spacing: -1px;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    p {
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      margin-bottom: 2rem;
+    }
+    
+    .footer {
+      position: absolute;
+      bottom: 1rem;
+      width: 100%;
+      text-align: center;
+      font-size: 0.875rem;
+      opacity: 0.7;
+    }
+    
+    #nfc-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="nfc-canvas"></canvas>
+  
+  <div class="container">
+    <div class="content">
+      <h1>A NEW GENERATION OF NFC</h1>
+      <p>COMING SOON</p>
+    </div>
+    
+    <div class="footer">
+      © <span id="current-year"></span> Taggy. All rights reserved.
+    </div>
+  </div>
+
+  <script type="module">
+    import * as THREE from 'three';
+    
+    // Set current year in footer
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+    
+    // Initialize Three.js scene
+    const canvas = document.getElementById('nfc-canvas');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    
+    const scene = new THREE.Scene();
+    
+    // Camera
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 2;
+    
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    scene.add(ambientLight);
+    
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(5, 5, 5);
+    scene.add(directionalLight);
+    
+    // Create NFC tag model based on the image
+    const nfcGroup = new THREE.Group();
+    
+    // Transparent base
+    const discGeometry = new THREE.CylinderGeometry(0.8, 0.8, 0.02, 32);
+    const discMaterial = new THREE.MeshPhysicalMaterial({ 
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.4,
+      roughness: 0.1,
+      transmission: 0.9,
+      clearcoat: 1.0
+    });
+    const disc = new THREE.Mesh(discGeometry, discMaterial);
+    disc.rotation.x = Math.PI / 2;
+    nfcGroup.add(disc);
+    
+    // Create concentric rings for the antenna
+    const ringMaterial = new THREE.MeshStandardMaterial({ 
+      color: 0x888888,
+      metalness: 0.8,
+      roughness: 0.2
+    });
+    
+    const rings = [];
+    const numRings = 12;
+    const maxRadius = 0.7;
+    const minRadius = 0.15;
+    const ringThickness = 0.008;
+    
+    for (let i = 0; i < numRings; i++) {
+      const t = i / (numRings - 1);
+      const radius = minRadius + (maxRadius - minRadius) * t;
+      
+      const ringGeometry = new THREE.TorusGeometry(radius, ringThickness, 16, 100);
+      const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+      ring.rotation.x = Math.PI / 2;
+      ring.position.z = 0.01;
+      nfcGroup.add(ring);
+      rings.push(ring);
+    }
+    
+    // Add chip in center
+    const chipGeometry = new THREE.BoxGeometry(0.1, 0.1, 0.01);
+    const chipMaterial = new THREE.MeshStandardMaterial({ 
+      color: 0x888888,
+      metalness: 0.9,
+      roughness: 0.2
+    });
+    const chip = new THREE.Mesh(chipGeometry, chipMaterial);
+    chip.position.set(0, 0, 0.01);
+    nfcGroup.add(chip);
+    
+    // Add connection lines
+    const lineMaterial = new THREE.LineBasicMaterial({ color: 0x666666 });
+    
+    // Vertical connection line
+    const vLineGeometry = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(-0.3, -0.15, 0.01),
+      new THREE.Vector3(-0.3, 0.3, 0.01)
+    ]);
+    const vLine = new THREE.Line(vLineGeometry, lineMaterial);
+    nfcGroup.add(vLine);
+    
+    // Horizontal connection to chip
+    const hLineGeometry = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(-0.3, -0.15, 0.01),
+      new THREE.Vector3(-0.05, -0.15, 0.01),
+      new THREE.Vector3(-0.05, 0, 0.01)
+    ]);
+    const hLine = new THREE.Line(hLineGeometry, lineMaterial);
+    nfcGroup.add(hLine);
+    
+    // Connection to outer ring
+    const outerConnectGeometry = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(-0.3, 0.3, 0.01),
+      new THREE.Vector3(-0.7, 0.3, 0.01)
+    ]);
+    const outerConnect = new THREE.Line(outerConnectGeometry, lineMaterial);
+    nfcGroup.add(outerConnect);
+    
+    // Add a small + symbol near the outer connection
+    const plusHGeometry = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(-0.65, 0.4, 0.01),
+      new THREE.Vector3(-0.55, 0.4, 0.01)
+    ]);
+    const plusH = new THREE.Line(plusHGeometry, lineMaterial);
+    nfcGroup.add(plusH);
+    
+    const plusVGeometry = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(-0.6, 0.35, 0.01),
+      new THREE.Vector3(-0.6, 0.45, 0.01)
+    ]);
+    const plusV = new THREE.Line(plusVGeometry, lineMaterial);
+    nfcGroup.add(plusV);
+    
+    // Add connection points
+    const createConnectionPoint = (x, y) => {
+      const pointGeometry = new THREE.CircleGeometry(0.02, 16);
+      const pointMaterial = new THREE.MeshStandardMaterial({ color: 0x888888 });
+      const point = new THREE.Mesh(pointGeometry, pointMaterial);
+      point.position.set(x, y, 0.015);
+      point.rotation.x = -Math.PI / 2;
+      return point;
+    };
+    
+    nfcGroup.add(createConnectionPoint(-0.3, -0.15));
+    nfcGroup.add(createConnectionPoint(-0.3, 0.15));
+    nfcGroup.add(createConnectionPoint(-0.3, 0.3));
+    nfcGroup.add(createConnectionPoint(-0.7, 0.3));
+    
+    // Add connection between rings (to show they're connected electrically)
+    const ringConnectGeometry = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(0.1, 0.15, 0.01),
+      new THREE.Vector3(0.1, 0.25, 0.01)
+    ]);
+    const ringConnect = new THREE.Line(ringConnectGeometry, lineMaterial);
+    nfcGroup.add(ringConnect);
+    
+    // Scale the entire group
+    nfcGroup.scale.set(0.5, 0.5, 0.5);
+    
+    // Add NFC tag to scene
+    scene.add(nfcGroup);
+    
+    // Mouse position tracking
+    const mouse = new THREE.Vector2();
+    const targetPosition = new THREE.Vector3();
+    
+    window.addEventListener('mousemove', (event) => {
+      // Update mouse position
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      
+      // Convert to 3D position
+      targetPosition.set(mouse.x * 3, mouse.y * 1.5, 0);
+    });
+    
+    // Touch support for mobile
+    window.addEventListener('touchmove', (event) => {
+      event.preventDefault();
+      // Update position based on touch
+      mouse.x = (event.touches[0].clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.touches[0].clientY / window.innerHeight) * 2 + 1;
+      
+      // Convert to 3D position
+      targetPosition.set(mouse.x * 3, mouse.y * 1.5, 0);
+    }, { passive: false });
+    
+    // Animation
+    function animate() {
+      requestAnimationFrame(animate);
+      
+      // Smoothly move the NFC tag toward the mouse position
+      nfcGroup.position.x += (targetPosition.x - nfcGroup.position.x) * 0.1;
+      nfcGroup.position.y += (targetPosition.y - nfcGroup.position.y) * 0.1;
+      
+      // Add subtle rotation
+      nfcGroup.rotation.z += 0.003;
+      
+      renderer.render(scene, camera);
+    }
+    
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+    
+    // Start animation
+    animate();
+  </script>
+</body>
+</html>
