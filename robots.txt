@@ -1,4 +1,7 @@
 User-agent: *
 Disallow: /404/
+Disallow: /terms
+Disallow: /privacy
 Crawl-delay: 10
-Sitemap: https:taggy.digital/sitemap.xml
+
+Sitemap: https://www.taggy.digital/sitemap.xml
