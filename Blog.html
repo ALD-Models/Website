@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Taggy | Blog</title>
+    <!link rel="icon" type="image/svg+xml" href="/Taggy.png" />
+    <meta name="description" content="Create and manage customizable QR codes and NFC tags with Taggy. Track performance with real-time analytics and connect physical to digital effortlessly.">
+    <meta name="author" content="Jake Lofthouse" />
+    <meta name="robots" content="index, follow">
+
+<!-- PNG Favicon for general users -->
+<link rel="icon" type="image/png" href="/Taggy.png" sizes="32x32" />
+
+<!-- ICO Favicon for broader browser and Google compatibility -->
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+
+
+
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.taggy.digital/Blog">
+    <!meta property="og:image" content="/TaggyFeature.png">
+    <meta property="og:image" content="/Images/Feature.jpg">
+    <meta property="og:title" content="Taggy | Smart QR Codes & NFC Tags with Scheduling & Real-Time Analytics">
+    <meta property="og:description" content="Create and manage customizable QR codes and NFC tags with Taggy. Track performance with real-time analytics and connect physical to digital effortlessly.">
+
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="/Images/Feature.jpg">
+    <meta property="twitter:url" content="https://www.taggy.digital/">
+    <meta property="twitter:title" content="Taggy | Smart QR Codes & NFC Tags with Scheduling & Real-Time Analytics">
+    <meta property="twitter:description" content="Create and manage customizable QR codes and NFC tags with Taggy. Track performance with real-time analytics and connect physical to digital effortlessly.">
+
+
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://www.taggy.digital/Blog">
+    <meta charset="UTF-8">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PK2KPSHGNG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-PK2KPSHGNG');
+</script>
+    
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#544cc8',
+              primaryDark: '#463daa',
+              background: 'rgb(248, 250, 252)',
+              foreground: 'rgb(3, 7, 18)',
+              muted: 'rgb(226, 232, 240)',
+              'muted-foreground': 'rgb(100, 116, 139)',
+              border: 'rgb(226, 232, 240)',
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.3s ease-out',
+              'scale-in': 'scaleIn 0.2s ease-out',
+              'slide-up': 'slideUp 0.3s ease-out',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0', transform: 'translateY(10px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' }
+              },
+              scaleIn: {
+                '0%': { transform: 'scale(0.95)', opacity: '0' },
+                '100%': { transform: 'scale(1)', opacity: '1' }
+              },
+              slideUp: {
+                '0%': { transform: 'translateY(20px)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' }
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+    
+    #bh-posts .bh-post {
+        padding: 1.5rem;
+        border-radius: 1rem;
+        background-color: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        border: 1px solid #e5e7eb;
+        transition: box-shadow 0.3s;
+      }
+      #bh-posts .bh-post:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      }
+      #bh-posts .bh-post h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+      #bh-posts .bh-post p {
+        color: #6b7280;
+        font-size: 0.875rem;
+      }
+      
+      /* [Your existing styles remain unchanged] */
+      html { scroll-behavior: smooth; }
+      body {
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", sans-serif;
+        background-color: rgb(248, 250, 252);
+        color: rgb(3, 7, 18);
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      .antialiased { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+      .tracking-tight { letter-spacing: -0.025em; }
+      .glass-card {
+        background-color: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+      .text-balance { text-wrap: balance; }
+      .shimmer {
+        position: absolute;
+        inset: -150%;
+        background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 100%);
+        animation: shimmer 4s infinite;
+        transform: rotate(30deg);
+      }
+      @keyframes shimmer {
+        0% { transform: translateX(-100%) rotate(30deg); }
+        100% { transform: translateX(100%) rotate(30deg); }
+      }
+      .animate-blur {
+        position: absolute;
+        pointer-events: none;
+        border-radius: 50%;
+        opacity: 0.7;
+        z-index: 0;
+      }
+      .container {
+        width: 100%;
+        max-width: 1280px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      @media (min-width: 640px) { .container { padding-left: 1.5rem; padding-right: 1.5rem; } }
+      @media (min-width: 1024px) { .container { padding-left: 2rem; padding-right: 2rem; } }
+      .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
+      .animate-scale-in { animation: scaleIn 0.2s ease-out forwards; }
+      .animate-slide-up { animation: slideUp 0.3s ease-out forwards; }
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 40;
+        padding: 1rem;
+        transform: translateY(-100%);
+        transition: transform 0.3s ease;
+      }
+      .mobile-menu.open { transform: translateY(0); display: block; }
+    </style>
+  </head>
+  <body>
+    <div class="min-h-screen flex flex-col">
+      <!-- [Navbar remains unchanged] -->
+      <header class="sticky top-0 z-40 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md">
+        <div class="container flex h-16 items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="relative flex h-9 w-9 overflow-hidden items-center justify-center rounded-xl">
+              <img src="/Taggy.png" alt="Taggy Logo" class="relative z-10 h-9 w-9 object-contain rounded-lg"/>
+            </div>
+            <span class="text-xl font-semibold tracking-tight">taggy</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <nav class="hidden md:flex items-center gap-6">
+              <a href="#features" class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Features</a>
+              <a href="#how-it-works" class="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">How It Works</a>
+            </nav>
+            <a href="https://app.taggy.digital/" class="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+              Login
+            </a>
+            <button id="menuToggle" class="md:hidden flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="menu-icon">
+                <line x1="4" x2="20" y1="12" y2="12"/>
+                <line x1="4" x2="20" y1="6" y2="6"/>
+                <line x1="4" x2="20" y1="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div id="mobileMenu" class="mobile-menu">
+          <div class="container py-4">
+            <div class="flex justify-between items-center mb-6">
+              <div class="flex items-center gap-2">
+                <div class="relative flex h-9 w-9 overflow-hidden items-center justify-center rounded-xl">
+                  <img src="https://raw.githubusercontent.com/ALD-Models/Website/main/Taggy.png" alt="Taggy Logo" class="relative z-10 h-9 w-9 object-contain rounded-lg"/>
+                </div>
+                <span class="text-xl font-semibold tracking-tight">taggy</span>
+              </div>
+              <button id="closeMenu" class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 6 6 18"></path>
+                  <path d="m6 6 12 12"></path>
+                </svg>
+              </button>
+            </div>
+            <nav class="flex flex-col space-y-4">
+              <a href="#features" class="p-2 text-sm font-medium transition hover:text-primary">Features</a>
+              <a href="#how-it-works" class="p-2 text-sm font-medium transition hover:text-primary">How It Works</a>
+              <div class="pt-4">
+                <a href="https://app.taggy.digital/" class="inline-flex w-full h-10 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primaryDark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                  Get Started
+                </a>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </header>
+      
+      <main>
+
+    <!-- Blog Content -->
+    <main class="py-20">
+<div id="bh-posts"></div>
+    </main>
+      
+      <!-- [Footer remains unchanged] -->
+      <footer class="bg-gray-50 border-t border-gray-100">
+        <div class="container py-12 md:py-16">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+            <div>
+              <div class="flex items-center gap-1.5 mb-6">
+                <div class="relative flex h-10 w-10 overflow-hidden items-center justify-center rounded-xl">
+                  <img src="/Taggy.png" alt="Taggy Logo" class="relative z-10 h-10 w-10 object-contain rounded-lg"/>
+                </div>
+                <span class="text-xl font-semibold tracking-tight">taggy</span>
+              </div>
+              <p class="text-muted-foreground mb-6 text-sm max-w-xs">
+                The ultimate platform for creating and managing dynamic NFC tags and QR codes.
+              </p>
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold mb-4">Support</h3>
+              <ul class="space-y-3">
+                <li><a href="https://forms.office.com/r/34xFJ4NbyA" class="text-muted-foreground text-sm hover:text-primary transition-colors">Contact</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="mt-12 pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
+            <p class="text-sm text-muted-foreground">
+              &copy; <script>document.write(new Date().getFullYear())</script> Taggy. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script>
+        
+      // Mobile menu functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const menuToggle = document.getElementById('menuToggle');
+        const closeMenu = document.getElementById('closeMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        
+        function toggleMenu() {
+          if (mobileMenu.classList.contains('open')) {
+            mobileMenu.classList.remove('open');
+          } else {
+            mobileMenu.classList.add('open');
+          }
+        }
+        
+        menuToggle.addEventListener('click', toggleMenu);
+        closeMenu.addEventListener('click', toggleMenu);
+        
+        mobileMenuLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+          });
+        });
+      
+        // Animated blur functionality
+        function animateBlur(elementId, duration) {
+          const blur = document.getElementById(elementId);
+          if (!blur) return;
+          
+          let startX = Math.random() * 100;
+          let startY = Math.random() * 100;
+          let endX = Math.random() * 100;
+          let endY = Math.random() * 100;
+          
+          const animate = () => {
+            const newStartX = Math.random() * 70 + 15;
+            const newStartY = Math.random() * 70 + 15;
+            const newEndX = Math.random() * 70 + 15;
+            const newEndY = Math.random() * 70 + 15;
+            
+            blur.animate(
+              [
+                { left: `${startX}%`, top: `${startY}%` },
+                { left: `${endX}%`, top: `${endY}%` },
+              ],
+              {
+                duration: duration * 1000,
+                easing: "cubic-bezier(0.25, 0.1, 0.25, 1)",
+                fill: "forwards",
+              }
+            );
+            
+            startX = endX;
+            startY = endY;
+            endX = newEndX;
+            endY = newEndY;
+            
+            setTimeout(animate, duration * 1000);
+          };
+          
+          animate();
+        }
+        
+        animateBlur('blur1', 15);
+        animateBlur('blur2', 18);
+        animateBlur('blur3', 15);
+        animateBlur('blur4', 18);
+
+        // Hero Section Chart
+        const heroCtx = document.getElementById('heroAnalyticsChart').getContext('2d');
+        new Chart(heroCtx, {
+          type: 'line',
+          data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+              label: 'QR Scans',
+              data: [35, 58, 45, 65, 72, 55, 40],
+              borderColor: '#544cc8',
+              borderWidth: 2,
+              fill: false,
+              tension: 0.4,
+              pointRadius: 0
+            }, {
+              label: 'NFC Taps',
+              data: [25, 30, 35, 40, 55, 50, 65],
+              borderColor: '#7367d5',
+              borderWidth: 2,
+              fill: false,
+              tension: 0.4,
+              pointRadius: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: { enabled: false }
+            },
+            scales: {
+              x: { 
+                grid: { display: true, color: '#e5e7eb' },
+                ticks: { color: '#64748b' }
+              },
+              y: { 
+                display: false,
+                grid: { display: true, color: '#e5e7eb' }
+              }
+            }
+          }
+        });
+
+// How It Works Section Chart
+const howItWorksCtx = document.getElementById('howItWorksChart').getContext('2d');
+new Chart(howItWorksCtx, {
+  type: 'line',
+  data: {
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    datasets: [{
+      label: 'QR Scans',
+      data: [20, 30, 50, 35, 65, 75, 80],
+      borderColor: '#544cc8',
+      borderWidth: 2,
+      fill: false,
+      tension: 0.4,
+      pointRadius: 3,
+      pointBackgroundColor: '#544cc8'
+    }, {
+      label: 'NFC Taps',
+      data: [10, 15, 20, 25, 40, 30, 50],
+      borderColor: '#7367d5',
+      borderWidth: 2,
+      fill: false,
+      tension: 0.4,
+      pointRadius: 3,
+      pointBackgroundColor: '#7367d5'
+    }, {
+      label: 'Store 3',
+      data: [15, 25, 35, 45, 55, 40, 60],
+      borderColor: '#9b91e0',
+      borderWidth: 2,
+      fill: false,
+      tension: 0.4,
+      pointRadius: 3,
+      pointBackgroundColor: '#9b91e0'
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { enabled: false }
+    },
+    scales: {
+      x: { 
+        grid: { display: true, color: '#f5f5f5' },
+        ticks: { 
+          color: '#64748b', 
+          font: { size: 9 },
+          padding: 5,
+          maxRotation: 0,
+          minRotation: 0
+        }
+      },
+      y: { 
+        display: false,
+        grid: { display: true, color: '#f1f1f1' }
+      }
+    },
+    layout: {
+      padding: {
+        left: 10,
+        right: 10
+      }
+    }
+  }
+});
+      });
+    </script>
+<script>
+var bh_id = "60yBOaKbRQo2qANTY0NA";
+</script>
+
+<script src="https://www.bloghandy.com/api/bh_blogengine.js"></script>
+  </body>
+</html>
