@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Email Confirmed</title>
+  <title>Email Confirmation</title>
 
-  <!-- Prevent Search Engine Indexing -->
+  <!-- Prevent indexing -->
   <meta name="robots" content="noindex, nofollow" />
   <meta name="googlebot" content="noindex, nofollow" />
 
@@ -35,22 +35,50 @@
 </head>
 <body class="bg-gradient-to-br from-indigo-800 to-purple-900 min-h-screen flex items-center justify-center p-6">
 
-  <div class="bg-white rounded-2xl shadow-2xl p-10 text-center max-w-md w-full fade-in">
-    <!-- Animated Checkmark -->
-    <svg class="mx-auto mb-6" width="72" height="72" viewBox="0 0 72 72" fill="none">
-      <circle cx="36" cy="36" r="34" stroke="#8b5cf6" stroke-width="4" />
-      <path d="M22 38 L32 48 L50 26" stroke="#8b5cf6" stroke-width="4" fill="none" class="draw" />
-    </svg>
+  <div id="container" class="bg-white rounded-2xl shadow-2xl p-10 text-center max-w-md w-full fade-in">
+    <!-- Success Message -->
+    <div id="success-section">
+      <svg class="mx-auto mb-6" width="72" height="72" viewBox="0 0 72 72" fill="none">
+        <circle cx="36" cy="36" r="34" stroke="#8b5cf6" stroke-width="4" />
+        <path d="M22 38 L32 48 L50 26" stroke="#8b5cf6" stroke-width="4" fill="none" class="draw" />
+      </svg>
+      <h1 class="text-3xl font-bold text-gray-800 mb-3">Email Confirmed!</h1>
+      <p class="text-gray-600 mb-6">Your email has been successfully verified. You can now access your dashboard.</p>
+      <a href="https://www.app.taggy.digital/" class="inline-block px-6 py-3 bg-indigo-600 text-white font-semibold rounded-full hover:bg-indigo-700 transition-all duration-300 shadow-lg">
+        Login to Dashboard
+      </a>
+    </div>
 
-    <!-- Message -->
-    <h1 class="text-3xl font-bold text-gray-800 mb-3">Email Confirmed!</h1>
-    <p class="text-gray-600 mb-6">Your email has been successfully verified. You can now access your dashboard.</p>
-
-    <!-- Correct Login Button URL -->
-    <a href="https://app.taggy.digital/" class="inline-block px-6 py-3 bg-indigo-600 text-white font-semibold rounded-full hover:bg-indigo-700 transition-all duration-300 shadow-lg">
-      Login to Dashboard
-    </a>
+    <!-- Error Message -->
+    <div id="error-section" class="hidden">
+      <svg class="mx-auto mb-6 text-red-500" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="15" y1="9" x2="9" y2="15" />
+        <line x1="9" y1="9" x2="15" y2="15" />
+      </svg>
+      <h1 class="text-2xl font-bold text-red-600 mb-3">Something Went Wrong</h1>
+      <p id="error-message" class="text-gray-600">An error occurred while confirming your email.</p>
+    </div>
   </div>
 
+  <!-- Script to detect and show error -->
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const hash = window.location.hash;
+      const params = new URLSearchParams(hash.replace(/^#/, ""));
+      const error = params.get("error");
+      const errorDesc = params.get("error_description");
+
+      if (error) {
+        // Show error section
+        document.getElementById("success-section").classList.add("hidden");
+        document.getElementById("error-section").classList.remove("hidden");
+
+        // Show friendly message
+        const message = decodeURIComponent(errorDesc || "Something went wrong.");
+        document.getElementById("error-message").textContent = message;
+      }
+    });
+  </script>
 </body>
 </html>
